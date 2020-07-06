@@ -1,0 +1,117 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Page User {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="title">Contact Me</h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col-md-3 px-md-1">
+              <div class="form-group">
+                <label>Your name</label>
+                <input type="text" class="form-control" value="{{ request.user.username }}">
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label for="em">Email address</label>
+                <input id="em" type="email" class="form-control" value="{{ request.user.email }}">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Contact Number(optional)</label>
+                <input type="text" class="form-control" placeholder="Home Address" value="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pr-md-1">
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" class="form-control" placeholder="City" value="">
+              </div>
+            </div>
+            <div class="col-md-4 px-md-1">
+              <div class="form-group">
+                <label>Country</label>
+                <input type="text" class="form-control" placeholder="Country" value="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>About Me</label>
+                <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value=""></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-fill btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-user">
+      <div class="card-body">
+        <p class="card-text">
+          <div class="author">
+            <div class="block block-one"></div>
+            <div class="block block-two"></div>
+            <div class="block block-three"></div>
+            <div class="block block-four"></div>
+            <a href="javascript:void(0)">
+              <img class="avatar" src="/static/assets/img/emilyz.jpg" alt="...">
+              <h5 class="title">
+                Chandni Goyal
+              </h5>
+            </a>
+            <p class="description">
+              gchandni886@gmail.com
+            </p>
+          </div>
+        </p>
+        <div class="card-description">
+          I'm chandni goyal working as a freelancer from past 5years.
+          I've expertise in python and machine learning.
+          Always available for all kind of challanges.
+          Please feel free to contact if you have some work for me.
+        </div>
+      </div>
+<!--      <div class="card-footer">-->
+<!--        <div class="button-container">-->
+<!--          <button href="javascript:void(0)" class="btn btn-icon btn-round btn-facebook">-->
+<!--            <i class="fab fa-linkedin"></i>-->
+<!--          </button>-->
+<!--          <button href="javascript:void(0)" class="btn btn-icon btn-round btn-twitter">-->
+<!--            <i class="fab fa-mail"></i>-->
+<!--          </button>-->
+<!--          <button href="javascript:void(0)" class="btn btn-icon btn-round btn-google">-->
+<!--            <i class="fab fa-google-plus"></i>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

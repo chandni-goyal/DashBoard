@@ -1,0 +1,158 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Page User {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .inputt {
+        width: fit-content;
+        padding: 10px;
+        margin: 10px;
+        background: #0000000d;
+    }
+    .row p {
+        color: #515f7f;
+        margin-left: 26px;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<form method="post" id="my_form" enctype="multipart/form-data" action="/simple_upload/">
+     {% csrf_token %}
+
+        <div class="row inputt">
+            <input type="file" name="myfile" id="fil_inp">
+        </div>
+
+         <div class="row">
+            <p>Upload your own CSV File and plot data.</p>
+        </div>
+        <div class="row">
+            <p>Please make sire file should contains two columns only.</p>
+        </div>
+
+
+        <div class="row inputt">
+            <select id="chart_type" name="chart_type">
+              <option value="volvo" selected disabled>Select</option>
+                {% ifequal type 'bar' %}
+                    <option value="bar" onclick="bar_chart()" selected>Bar Graph</option>
+                {% else %}
+                    <option value="bar" onclick="bar_chart()">Bar Graph</option>
+                {% endifequal %}
+                {% ifequal type 'line' %}
+                     <option value="line" onclick="line_chart()">Line Graph</option>
+                {% else %}
+                     <option value="line" onclick="line_chart()">Line Graph</option>
+                {% endifequal %}
+
+
+            </select>
+        </div>
+         <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+
+
+<div class="all line_canvas" style="margin:40px;text-align:center;">
+    <canvas id="MYLineChart"></canvas>
+</div>
+
+<div class="all bar_canvas d-none" style="margin:40px;text-align:center;">
+    <canvas id="MYBarChart"></canvas>
+</div>
+
+<div class="all pie_canvas d-none" style="margin:40px;text-align:center;">
+    <canvas id="MYPieChart"></canvas>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+function submit(event){
+  event.preventDefault();
+  var select = $("#chart_type").val();
+  if( document.getElementById("fil_inp").files.length == 0 ){
+    alert("no files selected");
+    }
+  else if(select == null || select == 'null'){
+    alert("Please select chart type");
+  }else{
+     $("#my_form").submit();
+  }
+
+
+}
+
+
+$('select').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+
+    if(valueSelected == 'bar'){
+        bar_chart();
+    }else if(valueSelected == 'line'){
+        line_chart();
+    }
+});
+
+
+function line_chart(){
+    $(".all").addClass('d-none');
+    $(".line_canvas").removeClass('d-none');
+    var ctx = document.getElementById('MYLineChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: {{x_values|safe}},
+            datasets: [{
+                label: 'My Own dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{y_values|safe}}
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+}
+function bar_chart(){
+    $(".all").addClass('d-none');
+    $(".bar_canvas").removeClass('d-none');
+    var ctx = document.getElementById('MYBarChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: {{x_values|safe}},
+            datasets: [{
+                backgroundColor: {{background|safe}},
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{y_values|safe}}
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+}
+
+
+
+if('{{type}}' == 'bar'){
+    bar_chart();
+}else if('{{type}}' == 'line'){
+    line_chart();
+}
+</script>
+{% endblock javascripts %}
